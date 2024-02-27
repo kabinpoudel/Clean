@@ -22,7 +22,7 @@ n_blocks = 16  # number of residual blocks
 checkpoint = None  # path to model checkpoint, None if none
 batch_size = 16  # batch size
 start_epoch = 0  # start at this epoch
-iterations = 1e6  # number of training iterations
+iterations = 1e5 # number of training iterations
 workers = 6  # number of workers for loading data in the DataLoader
 print_freq = 100  # print training status once every __ batches
 lr = 1e-4  # learning rate #1e-4
@@ -60,7 +60,7 @@ def main():
     train_dataset = SRDataset(data_folder,
                               split='train',
                               crop_size=crop_size,
-                              scaling_factor=1,
+                              scaling_factor=scaling_factor,
                               lr_img_type='imagenet-norm',
                               hr_img_type='[-1, 1]')
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=workers,

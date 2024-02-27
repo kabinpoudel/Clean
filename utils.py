@@ -120,11 +120,13 @@ class ImageTransforms(object):
             hr_img = img.crop((left, top, right, bottom))
 
         # Downsize this crop to obtain a low-resolution version of it
-        lr_img = hr_img.resize((int(hr_img.width / self.scaling_factor), int(hr_img.height / self.scaling_factor)),
+        lr_img = hr_img.resize((int(hr_img.width * self.scaling_factor), int(hr_img.height * self.scaling_factor)),
+                               Image.BICUBIC)
+        hr_img = hr_img.resize((int(hr_img.width * self.scaling_factor), int(hr_img.height * self.scaling_factor)),
                                Image.BICUBIC)
 
         # Sanity check
-        assert hr_img.width == lr_img.width * self.scaling_factor and hr_img.height == lr_img.height * self.scaling_factor
+        # assert hr_img.width == lr_img.width * self.scaling_factor and hr_img.height == lr_img.height * self.scaling_factor
 
         # Convert the LR and HR image to the required type
         lr_img = convert_image(lr_img, source='pil', target=self.lr_img_type)
