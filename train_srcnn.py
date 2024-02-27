@@ -60,7 +60,7 @@ def main():
     train_dataset = SRDataset(data_folder,
                               split='train',
                               crop_size=crop_size,
-                              scaling_factor=scaling_factor,
+                              scaling_factor=1,
                               lr_img_type='imagenet-norm',
                               hr_img_type='[-1, 1]')
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=workers,
@@ -103,7 +103,6 @@ def train(train_loader, model, criterion, optimizer, epoch):
         hr_imgs = hr_imgs.to(device)  # (batch_size (N), 3, 96, 96), in [-1, 1]
 
         # Forward prop.
-        lr_imgs = F.interpolate(lr_imgs, scale_factor=4, mode='bilinear', align_corners=False)
         sr_imgs = model(lr_imgs)  # (N, 3, 96, 96), in [-1, 1]
         
         # Loss
